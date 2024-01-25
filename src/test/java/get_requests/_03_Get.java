@@ -1,3 +1,5 @@
+package get_requests;
+
 import io.restassured.response.Response;
 import org.junit.Ignore;
 import org.junit.Test;
