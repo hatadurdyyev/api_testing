@@ -88,7 +88,7 @@ public class _01_GetBySpec extends JSONPlaceHolderUrl {
         expectedData.put("title", "Tidy your room");
         expectedData.put("completed", false);
 
-        Response response = given(spec).body(expectedData).when().post("{201}");
+        Response response = given(spec).when().post("{201}");
         response.prettyPrint();
 
         HashMap<String, Object> actualData = response.as(HashMap.class);
