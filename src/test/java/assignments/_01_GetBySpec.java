@@ -38,9 +38,9 @@ public class _01_GetBySpec extends JsonPlaceHolderBaseUrl {
         spec.pathParam("first", "todos");
 
         Map<String, Object> expectedData = new HashMap<>();
-        expectedData.put("userId", 56);
-        expectedData.put("title", "Clean your room");
-        expectedData.put("completed", true);
+        expectedData.put("userId", 76);
+        expectedData.put("title", "Clean my room");
+        expectedData.put("completed", false);
 
         System.out.println("expectedData = " + expectedData);
 
@@ -60,7 +60,14 @@ public class _01_GetBySpec extends JsonPlaceHolderBaseUrl {
 
     @Test
     public void getbyid(){
+        spec.pathParams("first", "todos", "second", id);
 
+        Response response = given(spec).when().get("{first}, {second}");
+        response.prettyPrint();
+
+        Map<String, Object> actualData = response.as(HashMap.class);
+
+        response.then().assertThat().statusCode(404);
     }
 
 }

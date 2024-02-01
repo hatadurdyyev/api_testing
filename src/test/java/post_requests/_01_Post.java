@@ -3,7 +3,9 @@ package post_requests;
 import base_urls.JsonPlaceHolderBaseUrl;
 import io.restassured.response.Response;
 import org.junit.Test;
+import test_data.JsonPlaceHolderTestData;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,5 +54,24 @@ public class _01_Post extends JsonPlaceHolderBaseUrl {
         assertEquals(expectedData.get("title"), actualData.get("title"));
         assertEquals(expectedData.get("userId"), actualData.get("userId"));
         assertEquals(expectedData.get("completed"), actualData.get("completed"));
+    }
+
+    @Test
+    public void post02(){
+        spec.pathParam("first", "todos");
+
+        Map<String, Object> expectedData = JsonPlaceHolderTestData.expectedDataMapMethod(12, " fgdf", false);
+
+        Response response = given(spec).body(expectedData).when().post("{first}");
+        response.prettyPrint();
+
+        Map<String, Object> actualData = response.as(HashMap.class);
+        System.out.println("actualData = " + actualData);
+
+        assertEquals(201, response.statusCode());
+        assertEquals(expectedData.get("title"), actualData.get("title"));
+        assertEquals(expectedData.get("userId"), actualData.get("userId"));
+        assertEquals(expectedData.get("completed"), actualData.get("completed"));
+
     }
 }
