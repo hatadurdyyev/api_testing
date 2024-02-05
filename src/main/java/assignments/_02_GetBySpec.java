@@ -1,12 +1,16 @@
 package assignments;
 
-import get_urls.reqresPlaceHolderUrl;
+import org.json.*;
 import io.restassured.response.Response;
 import org.junit.Test;
+import get_urls.reqresPlaceHolderUrl;
+
+import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.Assert.*;
 
-public class _02_GetBySpec extends reqresPlaceHolderUrl {
+public class _02_GetBySpec extends reqresPlaceHolderUrl{
     //Task01:
    /*
        Given
@@ -50,7 +54,13 @@ public class _02_GetBySpec extends reqresPlaceHolderUrl {
     public void Task01() {
         spec.pathParams("first", "api", "second", "unknown");
 
-        Response response = given(spec).when().get("{second}");
-        response.prettyPrint();
+        Response response = given(spec).when().get("{first}/{second}");
+        //response.prettyPrint();
+
+        HashMap<String, Object> actualData = response.as(HashMap.class);
+
+        assertEquals(200, response.statusCode());
+
+        JSONArray ja_data = actualData.getJSONArray("data");
     }
 }
