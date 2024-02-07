@@ -1,11 +1,15 @@
 package assignments;
 
+import io.restassured.path.json.JsonPath;
 import org.json.*;
 import io.restassured.response.Response;
 import org.junit.Test;
 import get_urls.reqresPlaceHolderUrl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.*;
@@ -61,6 +65,49 @@ public class _02_GetBySpec extends reqresPlaceHolderUrl{
 
         assertEquals(200, response.statusCode());
 
-        JSONArray ja_data = actualData.getJSONArray("data");
+        JsonPath jsonPath = response.jsonPath();
+
+        List<String> pantone_value = jsonPath.getList("data.pantone_value");
+        for (String x : pantone_value) {
+            System.out.println(x);
+        }
+
+        List<Integer> ids = jsonPath.getList("data.id");
+        int idsGreaterThan3 = 0;
+        for (int x : ids) {
+            if (x > 3) {
+                System.out.println(x);
+                idsGreaterThan3++;
+            }
+        }
+        assertEquals(3, idsGreaterThan3);
+
+        List<String> names = jsonPath.getList("data.name");
+        List<String> nameList = new ArrayList<>();
+        int namesLessThan3 = 0;
+        for (int i = 0; i < 2; i++) {
+                nameList.add(names.get(i));
+                namesLessThan3++;
+        }
+        System.out.println(nameList);
+        assertEquals(2, namesLessThan3);
+    }
+
+    @Test
+    public void Task02() {
+        spec.pathParams("first", "api", "second", "users");
+
+        Map<String, String> expectedData = new HashMap<>();
+        expectedData.put("name", "morpheus");
+        expectedData.put("job", "leader");
+
+        Response response = given(spec).body(expectedData).when().post("{first}/{second}");
+        response.prettyPrint();
+
+        HashMap<String, Object> actualData = response.as(HashMap.class);
+
+        assertEquals(201, response.statusCode());
+        assertEquals(expectedData.get("name"), actualData.get("name"));
+        assertEquals(expectedData.get("job"), actualData.get("job"));
     }
 }
