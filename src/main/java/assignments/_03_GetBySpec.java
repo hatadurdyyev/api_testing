@@ -28,8 +28,6 @@ public class _03_GetBySpec extends petstore_swagger_ioPlaceHolderUrl{
         Response response = given(spec).body(expectedData).when().post("{first}");
         response.prettyPrint();
 
-        HashMap<String, Object> actualData = response.as(HashMap.class);
-
         assertEquals(200, response.statusCode());
     }
 }
