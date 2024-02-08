@@ -4,6 +4,7 @@ import get_urls.JSONPlaceHolderUrl;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.junit.Test;
+import test_data.JSON_PlaceHolderTestData;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -48,6 +49,22 @@ public class _01_Post extends JSONPlaceHolderUrl {
         response.prettyPrint();
 
         LinkedHashMap<String, Object> actualData = response.as(LinkedHashMap.class);
+
+        assertEquals(201, response.statusCode());
+        assertEquals(expectedData.get("userId"), actualData.get("userId"));
+        assertEquals(expectedData.get("title"), actualData.get("title"));
+        assertEquals(expectedData.get("completed"), actualData.get("completed"));
+    }
+
+    public void post02() {
+        spec.pathParam("first", "todos");
+
+        Map<String, Object> expectedData = JSON_PlaceHolderTestData.expectedDataMapMethod(12, "hello", true);
+
+        Response response = given().spec(spec).body(expectedData).when().post("{first}");
+        response.prettyPrint();
+
+        Map<String, Object> actualData = response.as(HashMap.class);
 
         assertEquals(201, response.statusCode());
         assertEquals(expectedData.get("userId"), actualData.get("userId"));
