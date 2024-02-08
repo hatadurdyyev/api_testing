@@ -4,7 +4,7 @@ import io.restassured.path.json.JsonPath;
 import org.json.*;
 import io.restassured.response.Response;
 import org.junit.Test;
-import get_urls.reqresPlaceHolderUrl;
+import get_urls.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
